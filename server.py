@@ -1,7 +1,11 @@
-import math
+import math, random
 from math import sqrt, pi, sin, cos #mmm yes import
 
-user_dict = {"jerrbear" : {"coords":[10, 10], "last_ten_coords":[[1.001,1],[1, 1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],]}}
+random_ten_coords = []
+
+for i in range(0, 10):
+    random_ten_coords.append([random.uniform(1, 1.001), random.uniform(1, 1.001)])
+user_dict = {"jerrbear" : {"coords":[random.uniform(1, 1.001), random.uniform(1, 1.001)], "last_ten_coords": random_ten_coords}}
 
 def measure(lat1, lon1, lat2, lon2):
     R = 6378.137
@@ -25,16 +29,16 @@ class user_data:
 
 def check_spoof(user):
     length = []
-    location_list = user_data.last_ten_coords
+    location_list = user_data("jerrbear").last_ten_coords
     for i in range(0, 8):
         x1, y1 = location_list[i] #compares the distance between two points using pyagorean theorum
         x2, y2 = location_list[i + 1]
         length.append(measure(x1, y1, x2, y2))
-    '''for i in range(0, 8):
+    for i in range(0, 8):
         if length[i] == length[i + 1]:
             results = {"status": "FAIL", "reason": "DUPLICATE_LENGTH"}
             break
-        else:'''
-    return sum(length)
+        else:
+            return sum(length)
 
 print(check_spoof("jerrbear"))
